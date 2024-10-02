@@ -138,25 +138,14 @@ def get_active_output_audio_device(debug=False):
     if result:
         active_output_audio_device = result.stdout.strip()
         if len(active_output_audio_device) > 0:
-            return result.stdout
+            return active_output_audio_device
     
     result = subprocess.run(["pactl", "list", "sinks"], capture_output=True, text=True)
     if result:
         output = result.stdout
         active_output_audio_device = None
         for i, line in enumerate(output.split("\n")):
-            if "State" in line:
-                state = line.split(":")[1].strip()
-                if state == "RUNNING":
-                    active_output_audio_device = output.split("\n")[i + 1].split(":")[1].strip()
-                    return active_output_audio_device
-
-    result = subprocess.run(["pactl", "list", "sinks"], capture_output=True, text=True)
-    if result:
-        output = result.stdout
-        active_output_audio_device = None
-        for i, line in enumerate(output.split("\n")):
-            if "Estado" in line:
+            if "State" in line or "Estado" in line:
                 state = line.split(":")[1].strip()
                 if state == "RUNNING":
                     active_output_audio_device = output.split("\n")[i + 1].split(":")[1].strip()
