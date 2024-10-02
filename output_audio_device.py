@@ -53,10 +53,20 @@ def build_menu(debug=False):
     output_audio_devices_items = []
     active_output_audio_device = get_active_output_audio_device(debug)
     for output_device in output_devices:
-        if output_device['Name'] in active_output_audio_device:
-            output_device_item = gtk.MenuItem(label=f"\t(active) {output_device['Description']}")
+        if 'Name' in output_device.keys():
+            key_name = 'Name'
+        elif 'Nombre' in output_device.keys():
+            key_name = 'Nombre'
+        if 'Description' in output_device.keys():
+            key_description = 'Description'
+        elif 'Descripción' in output_device.keys():
+            key_description = 'Descripción'
+        elif 'Descripcion' in output_device.keys():
+            key_description = 'Descripcion'
+        if output_device[key_name] in active_output_audio_device:
+            output_device_item = gtk.MenuItem(label=f"\t(active) {output_device[key_description]}")
         else:
-            output_device_item = gtk.MenuItem(label=f"\t{output_device['Description']}")
+            output_device_item = gtk.MenuItem(label=f"\t{output_device[key_description]}")
         output_device_item.connect('activate', change_output_device, output_device['id'])
         menu.append(output_device_item)
         output_audio_devices_items.append(output_device_item)
@@ -100,10 +110,20 @@ def update_menu(indicator, output_devices, debug=False):
     else:
         active_output_audio_device = get_active_output_audio_device(debug)
         for number_output_device, output_device in enumerate(output_devices):
-            if output_device['Name'] in active_output_audio_device:
-                output_audio_devices_items[number_output_device].set_label(f"\t(active) {output_device['Description']}")
+            if 'Name' in output_device.keys():
+                key_name = 'Name'
+            elif 'Nombre' in output_device.keys():
+                key_name = 'Nombre'
+            if 'Description' in output_device.keys():
+                key_description = 'Description'
+            elif 'Descripción' in output_device.keys():
+                key_description = 'Descripción'
+            elif 'Descripcion' in output_device.keys():
+                key_description = 'Descripcion'
+            if output_device[key_name] in active_output_audio_device:
+                output_audio_devices_items[number_output_device].set_label(f"\t(active) {output_device[key_description]}")
             else:
-                output_audio_devices_items[number_output_device].set_label(f"\t{output_device['Description']}")
+                output_audio_devices_items[number_output_device].set_label(f"\t{output_device[key_description]}")
 
 def update_output_audio_devices(indicator, debug=False):
     if debug: print("\n Output audio devices:")
@@ -127,7 +147,7 @@ def get_output_audio_devices(debug=False):
         output_devices = []
         output_device = None
         for number_line, line in enumerate(output.split("\n")):
-            if "Sink #" in line:
+            if "Sink #" in line or "Destino #" in line:
                 if output_device:
                     output_devices.append(output_device)
                 output_device = {"id": line.split("#")[1]}
