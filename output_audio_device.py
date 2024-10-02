@@ -51,8 +51,12 @@ def build_menu(debug=False):
 
     output_devices = get_output_audio_devices(debug)
     output_audio_devices_items = []
+    active_output_audio_device = get_active_output_audio_device(debug)
     for output_device in output_devices:
-        output_device_item = gtk.MenuItem(label=f"\t{output_device['Description']}")
+        if output_device['Name'] in active_output_audio_device:
+            output_device_item = gtk.MenuItem(label=f"\t(active) {output_device['Description']}")
+        else:
+            output_device_item = gtk.MenuItem(label=f"\t{output_device['Description']}")
         output_device_item.connect('activate', change_output_device, output_device['id'])
         menu.append(output_device_item)
         output_audio_devices_items.append(output_device_item)
@@ -94,8 +98,12 @@ def update_menu(indicator, output_devices, debug=False):
 
     # If the number of devices has not changed, update the devices
     else:
+        active_output_audio_device = get_active_output_audio_device(debug)
         for number_output_device, output_device in enumerate(output_devices):
-            output_audio_devices_items[number_output_device].set_label(f"\t{output_device['Description']}")
+            if output_device['Name'] in active_output_audio_device:
+                output_audio_devices_items[number_output_device].set_label(f"\t(active) {output_device['Description']}")
+            else:
+                output_audio_devices_items[number_output_device].set_label(f"\t{output_device['Description']}")
 
 def update_output_audio_devices(indicator, debug=False):
     if debug: print("\n Output audio devices:")
@@ -103,6 +111,13 @@ def update_output_audio_devices(indicator, debug=False):
     update_menu(indicator, output_devices, debug)
 
     return True
+
+def get_active_output_audio_device(debug=False):
+    # Get output audio devices
+    result = subprocess.run(["pactl", "get-default-sink"], capture_output=True, text=True)
+    if result:
+        return result.stdout
+    return None
 
 def get_output_audio_devices(debug=False):
     # Get output audio devices
