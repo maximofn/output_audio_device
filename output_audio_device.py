@@ -63,10 +63,13 @@ def build_menu(debug=False):
             key_description = 'Descripción'
         elif 'Descripcion' in output_device.keys():
             key_description = 'Descripcion'
-        if output_device[key_name] in active_output_audio_device:
-            output_device_item = gtk.MenuItem(label=f"\t(active) {output_device[key_description]}")
-        else:
+        if not active_output_audio_device:
             output_device_item = gtk.MenuItem(label=f"\t{output_device[key_description]}")
+        else:
+            if output_device[key_name] in active_output_audio_device:
+                output_device_item = gtk.MenuItem(label=f"\t(active) {output_device[key_description]}")
+            else:
+                output_device_item = gtk.MenuItem(label=f"\t{output_device[key_description]}")
         output_device_item.connect('activate', change_output_device, output_device['id'])
         menu.append(output_device_item)
         output_audio_devices_items.append(output_device_item)
@@ -120,10 +123,13 @@ def update_menu(indicator, output_devices, debug=False):
                 key_description = 'Descripción'
             elif 'Descripcion' in output_device.keys():
                 key_description = 'Descripcion'
-            if output_device[key_name] in active_output_audio_device:
-                output_audio_devices_items[number_output_device].set_label(f"\t(active) {output_device[key_description]}")
-            else:
+            if not active_output_audio_device:
                 output_audio_devices_items[number_output_device].set_label(f"\t{output_device[key_description]}")
+            else:
+                if output_device[key_name] in active_output_audio_device:
+                    output_audio_devices_items[number_output_device].set_label(f"\t(active) {output_device[key_description]}")
+                else:
+                    output_audio_devices_items[number_output_device].set_label(f"\t{output_device[key_description]}")
 
 def update_output_audio_devices(indicator, debug=False):
     if debug: print("\n Output audio devices:")
