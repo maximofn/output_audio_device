@@ -38,6 +38,18 @@ if command -v conda &>/dev/null; then
 fi
 ```
 
+Install python3-pip
+
+```bash
+sudo apt install python3-pip
+```
+
+Install matplotlib
+
+```bash
+pip3 install matplotlib
+```
+
 ## Execution at start-up
 
 ```bash
