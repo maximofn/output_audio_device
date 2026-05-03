@@ -1,0 +1,13 @@
+[package]
+name = "audio-monitor-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+description = "Shared types for output-audio-device monitor backend and frontends."
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }

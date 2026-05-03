@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Output Audio Device Tray
+Comment=System tray indicator for output audio devices (consumes audio-monitord)
+Exec=sh -c "exec $HOME/.local/bin/audio-monitor-tray"
+Icon=audio-card
+Terminal=false
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Categories=System;AudioVideo;
