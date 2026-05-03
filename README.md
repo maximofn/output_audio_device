@@ -121,7 +121,7 @@ The schema is versioned in the path (`/v1/...`); a breaking change bumps the pre
 
 ## Legacy Python script
 
-`output_audio_device.py` is the original GTK/AppIndicator implementation. It still runs (`./output_audio_device.sh`) and is kept for reference until the Rust binaries have been in production for a release cycle. They can coexist with the Rust version on the same machine — the tray icons live next to each other.
+The original GTK/AppIndicator implementation lives under `legacy/` (`output_audio_device.py` + its launcher and autostart helper). It is kept for reference for one release cycle; if you need it back, run `./legacy/output_audio_device.sh` and add an autostart entry pointing at it. Once the Rust binaries have been in production a few weeks without issues the `legacy/` folder will be removed.
 
 ## Support
 

@@ -21,7 +21,7 @@ cargo fmt --all                              # formateo
 ./target/release/audio-monitord --mock
 ```
 
-`output_audio_device.py` (legacy) sigue funcional y puede correr en paralelo a la versión Rust mientras dure la migración. No los pongas a controlar el mismo `default-sink` simultáneamente, pero sí pueden coexistir como iconos.
+`legacy/output_audio_device.py` es la versión Python original (movida tras el cutover a `v2.0.0-rc1`). Se conserva un release cycle por si hay que volver atrás; lo puedes lanzar con `./legacy/output_audio_device.sh` pero no lo dejes corriendo en paralelo a la versión Rust — los dos compiten por el `default-sink` y el icono de bandeja.
 
 ## Arquitectura
 
